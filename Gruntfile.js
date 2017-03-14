@@ -72,16 +72,20 @@ module.exports = function(grunt)
         }
     });
 
+    // Only check recently modified files
     grunt.loadNpmTasks('grunt-newer');
+    // LESS LINT & MIN
     grunt.loadNpmTasks('grunt-lesslint');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    // JS LINT & MIN
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    // WATCH
     grunt.loadNpmTasks('grunt-contrib-watch');
     
     
 
-    grunt.registerTask('default', ['lesslint', 'less', 'cssmin', 'jshint', 'uglify', 'watch']);
+    grunt.registerTask('default', ['lesslint', 'less', 'jshint', 'watch']);
     grunt.registerTask('pre-commit', ['lesslint', 'newer:less', 'newer:cssmin', 'jshint', 'newer:uglify']);
 };
