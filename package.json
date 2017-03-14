@@ -1,0 +1,15 @@
+{
+  "name": "pre-commit-hook-test",
+  "version": "0.1.0",
+  "description": "",
+  "main": "Gruntfile.js",
+  "author": "design-it",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-cssmin": "^2.0.0",
+    "grunt-contrib-less": "^1.0.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-lesslint": "^3.2.0",
+    "grunt-newer": "^1.2.0"
+  }
+}
