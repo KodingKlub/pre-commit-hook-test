@@ -41,7 +41,7 @@ module.exports = function(grunt)
             all: ['Gruntfile.js', 'js/**/*.js']
         },
         uglify: {
-            my_target: {
+            all: {
                 options: {
                     sourceMap: false
                 },
