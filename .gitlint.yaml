@@ -1,0 +1,142 @@
+# Copyright 2013-2014 Sebastian Kreft
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Regular expression matchers like \d, \w, must be escaped as in \\d, \\w.
+# If you need to include a string like '{}' or '{foo}', you need to double the
+# braces, as in '{{}}' or '{{foo}}'. See the pylint configuration for an
+# example.
+
+# CSS
+csslint:
+  extensions:
+  - .css
+  command: csslint
+  arguments:
+  - "--ignore=ids,box-model,adjoining-classes,qualified-headings,unique-headings,zero-units"
+  - "--format=compact"
+  filter: "^{filename}: line (?P<line>{lines}), col (?P<column>\\d+)?, (?P<severity>\\S+) - (?P<message>.+)" # yamllint disable-line
+  installation: "Go to https://github.com/stubbornella/csslint/wiki/Command-line-interface for installation instructions." # yamllint disable-line
+
+# SCSS
+scss:
+  extensions:
+  - .scss
+  command: scss-lint
+  filter: "^{filename}:(?P<line>{lines}) \\[(?P<severity>.+)\\] (?P<message>.+)"
+  installation: "gem install scss-lint or go to https://github.com/causes/scss-lint" # yamllint disable-line
+
+# Javascript
+gjslint:
+  extensions:
+  - .js
+  command: gjslint
+  filter: "^Line\\s+(?P<line>{lines}), (?P<severity>[^: ]+):((?P<message_id>\\d+):)? (?P<message>.+)" # yamllint disable-line
+  installation: "Run pip install http://closure-linter.googlecode.com/files/closure_linter-latest.tar.gz, or visit https://developers.google.com/closure/utilities/docs/linter_howto for installation instructions." # yamllint disable-line
+
+jshint:
+  extensions:
+  - .js
+  command: jshint
+  arguments:
+  - "--config"
+  - "{DEFAULT_CONFIGS}/jshint.json"
+  filter: "^{filename}: line (?P<line>{lines}), col (?P<column>\\d+), (?P<message>.+)" # yamllint disable-line
+  installation: "Visit http://www.jshint.com/install/ for installation instructions." # yamllint disable-line
+
+# PHP
+php:
+  extensions:
+  - .php
+  command: php
+  arguments:
+  - "-l"
+  filter: "^(?P<message>.*) in {filename} on line (?P<line>\\d+)"
+  installation: "You first need to install PHP."
+
+phpcs:
+  extensions:
+  - .php
+  command: phpcs
+  arguments:
+  - "--report-width=1000"
+  - "--standard=PSR2"
+  filter: "^\\s*(?P<line>{lines})\\s+[|]\\s+(?P<severity>\\S+)\\s+[|]\\s+(?P<message>.+)"
+  installation: "Visit https://github.com/squizlabs/PHP_CodeSniffer for installation instructions" # yamllint disable-line
+
+# SHELL scripts
+bash:
+  extensions:
+  - .sh
+  command: bash
+  arguments:
+  - "-n"
+  filter: "{filename}: line (?P<line>{lines}): (?P<message>.+)"
+  installation: "Please install bash in your system."
+
+# YAML
+yaml:
+  extensions:
+  - .yaml
+  - .yml
+  command: yamllint
+  arguments:
+  - "--format"
+  - "parsable"
+  - "--config-data"
+  - "relaxed"
+  # Matches either:
+  # - syntax error, on any line
+  # - other error, on a modified line only
+  filter: "^{filename}:(?P<line>{lines}|\\d+\
+           (?=:\\d+: \\[error\\] syntax error:)):(?P<column>\\d+): \
+           \\[(?P<severity>\\S+)\\] (?P<message>.+)$"
+  installation: "Run pip install yamllint."
+
+# JSON
+json:
+  extensions:
+  - .json
+  command: python
+  arguments:
+  - "-m"
+  - "json.tool"
+  # enforce that here comes a colon
+  filter: "^(?P<message>[^:]+(?=: line \\d+ column \\d+)|No JSON object could be decoded)(: line (?P<line>\\d+) column (?P<column>\\d+).*)?$" # yamllint disable-line
+  installation: "Nothing else should be required."
+
+# HTML
+tidy:
+  extensions:
+  - .html
+  command: tidy-wrapper.sh
+  requirements:
+  - tidy
+  - remove_template.py
+  - grep
+  arguments:
+  - "-qe"
+  - "--drop-empty-elements"
+  - "false"
+  installation: "Visit https://w3c.github.io/tidy-html5/"
+  filter: "^line (?P<line>{lines}) column (?P<column>\\d+) - (?P<severity>[^:]+): (?P<message>.+)" # yamllint disable-line
+
+html_lint:
+  extensions:
+  - .html
+  command: html_lint.py
+  arguments:
+  - "--disable"
+  - "optional_tag"
+  installation: "pip install html-linter."
+  filter: "^(?P<line>{lines}):(?P<column>\\d+): (?P<severity>\\S+): (?P<message>.+)" # yamllint disable-line
