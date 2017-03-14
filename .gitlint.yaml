@@ -138,6 +138,5 @@ html_lint:
   arguments:
   - "--disable"
   - "optional_tag"
-  - "--indent-width 4"
   installation: "pip install html-linter."
   filter: "^(?P<line>{lines}):(?P<column>\\d+): (?P<severity>\\S+): (?P<message>.+)" # yamllint disable-line
