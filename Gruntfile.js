@@ -83,5 +83,5 @@ module.exports = function(grunt)
     
 
     grunt.registerTask('default', ['lesslint', 'less', 'cssmin', 'jshint', 'uglify', 'watch']);
-    grunt.registerTask('pre-commit', ['newer:lesslint', 'newer:less', 'newer:cssmin', 'newer:jshint:all', 'newer:uglify']);
+    grunt.registerTask('pre-commit', ['newer:lesslint', 'newer:less', 'newer:cssmin', 'jshint', 'newer:uglify']);
 };
