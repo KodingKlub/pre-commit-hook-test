@@ -12,7 +12,7 @@ module.exports = function(grunt)
                 },
                 files:
                 {
-                    './styles/css/style.css': './styles/less/style.less'
+                    './public/css/style.css': './styles/less/style.less'
                 }
             }
         },
@@ -33,9 +33,22 @@ module.exports = function(grunt)
             },
             target: {
                 files: {
-                  'styles/css/style.min.css': ['styles/css/style.css']
+                  'public/css/style.min.css': ['public/css/style.css']
                 }
             }
+        },
+        jshint: {
+            all: ['Gruntfile.js', 'js/**/*.js']
+        },
+        uglify: {
+            my_target: {
+                options: {
+                    sourceMap: false
+                },
+                files: {
+                    'public/js/main.min.js': ['js/main.js'],
+                },
+            },
         },
         watch: {
             reload:
@@ -50,7 +63,7 @@ module.exports = function(grunt)
             less:
             {
                 files: ['./styles/less/**/*.less'],
-                tasks: ['less:test', 'lesslint'],
+                tasks: ['newer:less:test', 'newer:lesslint'],
                 options:
                 {
                     livereload: true
@@ -63,9 +76,12 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-lesslint');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     
     
 
-    grunt.registerTask('default', ['newer:lesslint', 'less', 'cssmin', 'watch']);
+    grunt.registerTask('default', ['lesslint', 'less', 'cssmin', 'jshint', 'uglify', 'watch']);
+    grunt.registerTask('pre-commit', ['lesslint', 'less', 'cssmin', 'jshint', 'uglify']);
 };
